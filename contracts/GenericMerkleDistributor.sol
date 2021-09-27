@@ -1,19 +1,16 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity =0.6.11;
+pragma solidity =0.6.12;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/cryptography/MerkleProof.sol";
-import "./interfaces/IMerkleDistributor.sol";
+import "./interfaces/IGenericMerkleDistributor.sol";
 
-contract MerkleDistributor is IMerkleDistributor {
-    address public immutable override token;
-    bytes32 public immutable override merkleRoot;
+contract GenericMerkleDistributor is IGenericMerkleDistributor {
+    bytes32 public override merkleRoot;
 
     // This is a packed array of booleans.
     mapping(uint256 => uint256) private claimedBitMap;
 
-    constructor(address token_, bytes32 merkleRoot_) public {
-        token = token_;
+    constructor(bytes32 merkleRoot_) public {
         merkleRoot = merkleRoot_;
     }
 
@@ -31,7 +28,9 @@ contract MerkleDistributor is IMerkleDistributor {
         claimedBitMap[claimedWordIndex] = claimedBitMap[claimedWordIndex] | (1 << claimedBitIndex);
     }
 
-    function claim(uint256 index, address account, uint256 amount, bytes32[] calldata merkleProof) external override {
+    // The claim in the generic contract here needs to be used in a inheriting contract that implements 
+    // The actual action of claiming a token or nft 
+    function _claim(uint256 index, address account, uint256 amount, bytes32[] calldata merkleProof) internal {
         require(!isClaimed(index), 'MerkleDistributor: Drop already claimed.');
 
         // Verify the merkle proof.
@@ -40,8 +39,18 @@ contract MerkleDistributor is IMerkleDistributor {
 
         // Mark it claimed and send the token.
         _setClaimed(index);
-        require(IERC20(token).transfer(account, amount), 'MerkleDistributor: Transfer failed.');
 
         emit Claimed(index, account, amount);
+    }
+
+    modifier claimHelper(uint256 index, address account, uint256 amount, bytes32[] calldata merkleProof) {
+        _claim(index, account, amount, merkleProof);
+        _;
+        emit Claimed(index, account, amount);
+    }
+
+    // Useful for updating the merkle root to reuse the contract for further airdrops
+    function _setMerkleRoot(bytes32 merkleRoot_) internal {
+        merkleRoot = merkleRoot_;
     }
 }
