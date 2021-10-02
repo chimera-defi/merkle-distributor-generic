@@ -4,7 +4,7 @@
     "name": "Moody Salem, ChimeraDefi"
   },
   "description": "📦 A smart contract that distributes a balance of tokens according to a merkle root",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "keywords": [
     "uniswap",
     "erc20"
