@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.6.12;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts3/access/Ownable.sol";
+import "@openzeppelin/contracts3/token/ERC20/IERC20.sol";
 
 // Allow owner to claw back tokens deployed to redistribute or burn
 contract TimedClawback is Ownable {
