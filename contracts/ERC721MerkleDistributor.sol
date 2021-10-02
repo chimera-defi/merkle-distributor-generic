@@ -2,9 +2,9 @@
 pragma solidity =0.6.12;
 
 import "./GenericMerkleDistributor.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts3/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts3/access/Ownable.sol";
+import "@openzeppelin/contracts3/utils/Strings.sol";
 
 contract ERC721MerkleDistributor is GenericMerkleDistributor, ERC721, Ownable {
   using Strings for uint256;

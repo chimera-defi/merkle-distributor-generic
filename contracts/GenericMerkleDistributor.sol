@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.6.12;
 
-import "@openzeppelin/contracts/cryptography/MerkleProof.sol";
+import "@openzeppelin/contracts3/cryptography/MerkleProof.sol";
 import "./interfaces/IGenericMerkleDistributor.sol";
 
 contract GenericMerkleDistributor is IGenericMerkleDistributor {
